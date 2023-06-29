@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<!--=== Coding by CodingLab | www.codinglabweb.com === -->
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>EgyptEye-Mainpage</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!----======== CSS ======== -->
+    <link href="/styles.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+</head>
+
+<body>
+
+     <nav class="nav">
+        
+         <ul class="nav-links">
+            <li><a href="profile">
+                <i class="uil uil-user"></i>
+                <span class="link-name">Profile</span>
+                <a href="/main">
+                    <i class="uil uil-home"></i>
+                    <span class="link-name">Home</span>
+                </a>
+            </a></li>
+            <li>
+                <img src="/logoo.png"    width="100" height="100">
+            </li>
+            <li><a href="/login">
+                <i class="uil uil-signout"></i>
+                <span class="link-name">Logout</span>
+            </a></li>
+         </ul>
+     </nav>
+
+     <div class="content">
+        <div class="place">
+            <div class="add">
+                <a href="/addplace">
+                    
+                    <span> <i class="uil uil-eye"></i>Add Place</span>
+                    </a>
+            </div>
+        </div>
+        <div class="place">
+            <div class="add">
+                <a href="#" onclick="redirectToRoute('APIs/getlandmarks')">
+                    <span><i class="uil uil-image-plus"></i>View Places</span>
+                    </a>
+            </div>
+            
+        </div>
+        <div class="place">
+            <div class="add">
+                <a href="viewusers.html">
+                
+                    <span><i class="uil uil-user-check"></i>View Users</span>
+                    </a>
+            </div>
+            
+        </div>
+
+
+     </div> 
+     <script>
+        function redirectToRoute(route) {
+          window.location.href = route;
+        }
+      </script>
+      <script>
+        function redirectToRoutepost(route) {
+          event.preventDefault(); // Prevents the default behavior of the <a> tag
+      
+          // Perform AJAX request to trigger the POST route
+          fetch(route, {
+            method: 'POST'
+          })
+            .then(response => {
+              // Handle the response or perform any additional actions
+              window.location.href = response.url; // Redirect to the desired page
+            })
+            .catch(error => {
+              console.error('Error:', error);
+            });
+        }
+      </script>
+</body>
+
+</html>

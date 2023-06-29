@@ -1,0 +1,83 @@
+.dashboard{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    height: auto;
+    padding: 20px;
+
+}
+
+.formbg-inner{
+    margin: 0px auto;
+    width: 90%;
+    height: 520px;
+    /*box-shadow: rgba(60, 66, 87, 0.12) 0px 7px 14px 0px, rgba(0, 0, 0, 0.12) 0px 3px 6px 0px;*/
+    border-radius: 15px 5px 5px 15px;
+    background-color: rgba(250, 235, 215, 0.652);
+    box-shadow: 10px 10px 5px rgba(0, 0, 0, 0.3), 10px 10px 5px rgba(0, 0, 0, 0.425);
+    overflow-y: scroll;
+    
+}
+::-webkit-scrollbar {
+    width: 10px;
+    border-radius: 55px;
+
+
+}
+                    
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+    border-radius: 10px;
+}
+                    
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
+}
+table {
+    border-collapse: collapse;
+    width: 98%;
+    margin:10px;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  th, td {
+    border: 1px solid black;
+    padding: 8px;
+    text-align: center;
+    width: 20px ;
+  }
+  td {
+    background-color: #e1d9d4;
+  }
+  th {
+    background-color: #c16e34;
+  }
+  th.description, td.description {
+    width: 50%;
+  }
+  td.description{
+    text-align: left;
+  }
+  .edit{
+     background-color: rgb(55, 55, 205);
+     color: whitesmoke;
+     font-weight: 500;
+     font-size: 15px;
+  }
+  .delete{
+    background-color: red;
+    color: whitesmoke;
+    font-weight: 500;
+    font-size: 15px;
+  }
+  button{
+    width: 60px;
+    height: 40px;
+    margin: 3px;
+    border-radius: 5px;
+    border-width: 1px;
+    cursor: pointer;
+  }
+  

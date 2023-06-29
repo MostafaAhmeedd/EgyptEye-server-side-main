@@ -1,0 +1,67 @@
+.dashboard{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    height: auto;
+    padding: 20px;
+
+}
+.formbg-inner{
+    margin: 0px auto;
+    width: 100%;
+    max-width: 448px;
+    border-radius: 4px;
+    /*box-shadow: rgba(60, 66, 87, 0.12) 0px 7px 14px 0px, rgba(0, 0, 0, 0.12) 0px 3px 6px 0px;*/
+    border-radius: 15px;
+    background-color: rgba(250, 235, 215, 0.652);
+    box-shadow: 10px 10px 5px rgba(0, 0, 0, 0.3), 10px 10px 5px rgba(0, 0, 0, 0.425);
+}
+.padding-bottom--15{
+    font-size:larger;
+    font-weight: 600;
+    height: 40px;
+    
+}
+.title{
+    margin-bottom: 20px;
+}
+.form{
+    padding: 20px 20px;
+    margin-top: 10px;
+}
+.field input {
+    font-size: 16px;
+    line-height: 28px;
+    padding: 8px 16px;
+    width: 80%;
+    height: 30px;
+    border: unset;
+    margin-bottom: 20px;
+    border-radius: 4px;
+    outline-color: rgba(0, 0, 0, 0.5);
+    background-color: rgb(255, 255, 255);
+    box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+        rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+        rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+        rgba(60, 66, 87, 0.16) 0px 0px 0px 1px,
+        rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+        rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+        rgba(0, 0, 0, 0) 0px 0px 0px 0px;
+
+}
+button{
+    background-color: rgb(229, 124, 58);
+    box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+        rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+        rgba(0, 0, 0, 0.12) 0px 1px 1px 0px,
+        rgb(195, 199, 220) 0px 0px 0px 1px,
+        rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+        rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+        rgba(60, 66, 87, 0.08) 0px 2px 5px 0px;
+    color: #fff;
+    font-weight: 600;
+    cursor: pointer;
+    width: 35%;
+    height: 41px;
+}
