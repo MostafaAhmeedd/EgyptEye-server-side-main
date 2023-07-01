@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<!--=== Coding by CodingLab | www.codinglabweb.com === -->
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>EgyptEye-editPlace</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="Pragma" content="no-cache">
+    <!----======== CSS ======== -->
+    <link rel="stylesheet" href="/styles.css" >
+    <link rel="stylesheet" href="/addplace.css">
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+    <script src="/function.js"></script>
+</head>
+
+<body>
+
+     <nav class="nav">
+        
+         <ul class="nav-links">
+            <li><a href="#" onclick="redirectToRoute('APIs/profile-admin')">
+                <i class="uil uil-user"></i>
+                <span class="link-name">Profile</span>
+                <a href="/main">
+                    <i class="uil uil-home"></i>
+                    <span class="link-name">Home</span>
+                </a>
+            </a></li>
+            <li>
+                <img src="/logoo.png"    width="100" height="100">
+            </li>
+            <li><a href="#"  onclick="logout()">
+                <i class="uil uil-signout"></i>
+                <span class="link-name">Logout</span>
+            </a></li>
+         </ul>
+     </nav>
+
+     <section class="dashboard">
+        <div class="formbg-inner padding-horizontal--48">
+            
+            <form class="form" method="POST" enctype="multipart/form-data" action="/APIs/editplace/<%= landmark.id %>" onsubmit="return confirm('Are you sure you want to edit this landmark?')">
+                <!-- <input type="hidden" name="token" value=""> -->
+                <div class="title">
+                    <span class="padding-bottom--15">Edit Place</span>
+                </div>
+                <div class="field">
+                    <label for="AdminName">Edit Title</label>
+                    <input type="text" name="title" maxlength="40" minlength="4" value="<%= landmark.title %>">
+                </div>
+
+                <div class="field">
+                    <div class="grid--50-50">
+                        <label for="password">Edit Description
+                            <textarea name="description" rows="4" cols="50" ><%= landmark.description %></textarea>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label for="AdminName">Edit Image</label>
+                    <input type="file" name="image" value="<%= landmark.image.image%>">
+                </div>
+                
+                <div class="field">
+                    <label for="AdminName">Edit Longitude </label>
+                    <input type="text" name="long" value="<%= landmark.location.long %>">
+                </div>
+                
+                <div class="field">
+                    <label for="AdminName">Edit Latitude</label>
+                    <input type="text" name="lat" value="<%= landmark.location.lat %>">
+                </div>
+                <div class="field">
+                    <button type="submit" onclick="redirectToRoute('editplace/<%= landmark.id %>')" > Edit </button> 
+                </div>
+            </form >
+        </div>
+     </section>
+
+     <script>
+        function logout() {
+          window.location.href = "/login";
+          history.replaceState(null, null, "/login");
+        }
+      </script>
+     
+       
+</body>
+
+</html>

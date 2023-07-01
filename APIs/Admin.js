@@ -82,14 +82,75 @@ router.get('/profile-admin', authenticateAdmin, async (req, res) => {
             return res.status(404).json({ message: "User not found" });
         }
         await user.destroy();
-        const ALLusers = await User.findAll({ where: { type:'user'} });
-
         const referringPage = req.headers.referer;
-        console.log(referringPage)
-        res.redirect(referringPage);
+        const alertMessage = "User deleted successfully!";
+        res.send(`
+            <script>
+                alert("${alertMessage}");
+                window.location.href = "${referringPage}";
+            </script>
+        `);
+        // console.log(referringPage)
+        // res.redirect(referringPage);
     } catch (error) { 
         res.status(500).json({ error });
     }
+});
+router.get('/editplace/:landmarkId',authenticateAdmin, async(req,res) => {
+  try{
+      const landmarkId = req.params.landmarkId;
+      const landmark = await Landmark.findOne({
+        where: { id: landmarkId },
+        include: ['image', 'location']
+      });
+      if (landmark) {
+        res.render("editplace", { landmark: landmark });
+      } else {
+        res.status(404).json({ message: 'Landmark not found' });
+      }
+    } catch (error) {
+      res.status(500).json({ message: 'Something went wrong' });
+    }
+})
+router.post('/editplace/:landmarkId', authenticateAdmin, upload.single('image'), async (req, res) => {
+  try {
+    const landmarkId = req.params.landmarkId;
+    const landmark = await Landmark.findByPk(landmarkId, {
+      include: ['image', 'location'],
+    });
+
+    if (landmark) {
+      // Update the landmark's information based on the form data
+      landmark.title = req.body.title;
+      landmark.description = req.body.description;
+      landmark.location.long = req.body.long;
+      landmark.location.lat = req.body.lat;
+
+      if (req.file) {
+        // Update the image path if a new image was uploaded
+        landmark.image.image = req.file.path;
+      }
+      await landmark.image.save();
+      
+      await landmark.location.save();
+      // Save the changes to the database
+      await landmark.save();
+
+      // Redirect to the page showing all landmarks after successful edit
+      const alertMessage = "Landmark edited successfully!";
+      const referringPage = "/APIs/getlandmarks";
+      res.send(`
+          <script>
+              alert("${alertMessage}");
+              window.location.href = "${referringPage}";
+          </script>
+      `);
+    } else {
+      res.status(404).json({ message: 'Landmark not found' });
+    }
+  } catch (error) {
+    res.status(500).json({ message: 'Something went wrong' });
+  }
 });
   router.post('/delete-landmark/:id', authenticateAdmin, async (req, res) => {
     try {
@@ -106,8 +167,8 @@ router.get('/profile-admin', authenticateAdmin, async (req, res) => {
             return res.status(404).json({ message: "Landmark not found" });
         }
         // Delete the landmark and associated records
-        await landmark.image_id.destroy();
-        await landmark.location_id.destroy();
+        await landmark.image.destroy();
+        await landmark.location.destroy();
         await landmark.destroy();
 
         // Redirect or return a success message

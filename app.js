@@ -88,6 +88,9 @@ app.get('/admin-signup', (req, res) => {
 app.get('/viewuser', (req, res) => {
   res.render('viewuser');
 });
+app.get('/editplace', (req, res) => {
+  res.render('editplace');
+});
 // app.get("/getlandmarks", (req,res) =>{
 //   res.render("getlandmarks");
 // });
