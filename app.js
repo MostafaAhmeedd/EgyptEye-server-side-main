@@ -76,7 +76,7 @@ app.get("/main", (req,res) =>{
   res.render("main")
 
 });
-app.get('/signup.html', (req, res) => {
+app.get('/signup', (req, res) => {
   res.render('signup');
 });
 
@@ -84,7 +84,9 @@ app.get('/signup.html', (req, res) => {
 //   res.render("getlandmarks");
 // });
 
-
+// app.get('/profile-admin', (req, res) => {
+//   res.render('profile-admin');
+// });
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`)
 })

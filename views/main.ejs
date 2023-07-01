@@ -11,6 +11,7 @@
     <!----======== CSS ======== -->
     <link href="/styles.css" rel="stylesheet">
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+    <script src="/functions.js"></script>
 </head>
 
 <body>
@@ -18,7 +19,7 @@
      <nav class="nav">
         
          <ul class="nav-links">
-            <li><a href="profile">
+            <li><a href="#" onclick="redirectToRoute('APIs/profile-admin')">
                 <i class="uil uil-user"></i>
                 <span class="link-name">Profile</span>
                 <a href="/main">
@@ -51,7 +52,6 @@
                     <span><i class="uil uil-image-plus"></i>View Places</span>
                     </a>
             </div>
-            
         </div>
         <div class="place">
             <div class="add">
@@ -65,28 +65,7 @@
 
 
      </div> 
-     <script>
-        function redirectToRoute(route) {
-          window.location.href = route;
-        }
-      </script>
-      <script>
-        function redirectToRoutepost(route) {
-          event.preventDefault(); // Prevents the default behavior of the <a> tag
-      
-          // Perform AJAX request to trigger the POST route
-          fetch(route, {
-            method: 'POST'
-          })
-            .then(response => {
-              // Handle the response or perform any additional actions
-              window.location.href = response.url; // Redirect to the desired page
-            })
-            .catch(error => {
-              console.error('Error:', error);
-            });
-        }
-      </script>
+
 </body>
 
 </html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<!--=== Coding by CodingLab | www.codinglabweb.com === -->
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>EgyptEye-Profile</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!----======== CSS ======== -->
+  <link href="/styles.css" rel="stylesheet">
+  <link href="/profile-admin.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+  <script src="/functions.js"></script>
+</head>
+
+<body>
+    <nav class="nav">
+        
+        <ul class="nav-links">
+           <li><a href="#" onclick="redirectToRoute('profile-admin')">
+               <i class="uil uil-user"></i>
+               <span class="link-name">Profile</span>
+               <a href="/main">
+                   <i class="uil uil-home"></i>
+                   <span class="link-name">Home</span>
+               </a>
+           </a></li>
+           <li>
+               <img src="/logoo.png"    width="100" height="100">
+           </li>
+           <li><a href="/login">
+               <i class="uil uil-signout"></i>
+               <span class="link-name">Logout</span>
+           </a></li>
+        </ul>
+    </nav>
+
+  <section class="dashboard">
+    <div class="formbg-inner padding-horizontal--48">
+      <form class="form">
+        <div class="title">
+          <span class="padding-bottom--15">Profile details</span>
+        </div>
+        <div class="field">
+          <div class="firstName">
+            <label>First Name</label>
+            <input type="text" name="firstName" maxlength="10" minlength="4" readonly value="<%= user.firstName %>">
+          </div>
+          <div class="lastName">
+            <label>Last Name</label>
+            <input type="text" name="lastName:" maxlength="10" minlength="4" readonly value="<%= user.lastName %>">
+          </div>
+        </div>
+
+        <div class="field">
+          <div class="firstName">
+            <label>Email</label>
+            <input type="text" name="email" maxlength="10" minlength="4" readonly value="<%= user.email %>">
+          </div>
+          <div class="lastName">
+            <label>Phone Number</label>
+            <input type="text" name="phoneNumber" maxlength="10" minlength="4" readonly value="<%= user.phoneNumber %>">
+          </div>
+        </div>
+
+          </section>

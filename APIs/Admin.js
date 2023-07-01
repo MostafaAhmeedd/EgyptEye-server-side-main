@@ -21,6 +21,7 @@ router.post('/addLandmark',authenticateAdmin,upload.single('image'), async(req, 
         })
         await newImage.save();
         await newLocation.save()
+        console.log(newLocation)
         if(newLocation && newImage) {
 
             const newLandmark = await Landmark.create({
@@ -29,13 +30,13 @@ router.post('/addLandmark',authenticateAdmin,upload.single('image'), async(req, 
                 image_id: newImage.id,
                 location_id: newLocation.id
             })
-            console.log(newLandmark)
+
             if (newLandmark){
                 res.redirect("/addplace")
             }
         }
     }catch (error){
-        res.status(500).json({error: "error"})
+        res.status(500).json({error})
     }
 })
 router.get('/getlandmarks',authenticateAdmin, async(req,res) => {
@@ -48,6 +49,32 @@ router.get('/getlandmarks',authenticateAdmin, async(req,res) => {
         res.status(500).json({message: "something went wrong"});
     }
 })
+router.get('/profile-admin', authenticateAdmin, async (req, res) => {
+    try {
+      const user = await User.findOne({ where: { email: req.user.email } });
+      if (user) {
+        res.render("profile-admin", { user: user });
+      } else {
+        res.status(404).json({ error: 'User not found' });
+      }
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Something went wrong' });
+    }
+  });
+  router.get('/View-users', authenticateAdmin, async (req, res) => {
+    try {
+      const user = await User.findall({ where: { type: "user" } });
+      if (user) {
+        res.render("profile-admin", { user: user });
+      } else {
+        res.status(404).json({ error: 'User not found' });
+      }
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Something went wrong' });
+    }
+  });
 // router.get('/viewuser',authenticateAdmin, async(req,res) => {
 //     try{
 //         const users = await User.findAll({
