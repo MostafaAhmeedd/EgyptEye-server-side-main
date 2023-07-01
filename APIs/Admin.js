@@ -90,8 +90,6 @@ router.get('/profile-admin', authenticateAdmin, async (req, res) => {
                 window.location.href = "${referringPage}";
             </script>
         `);
-        // console.log(referringPage)
-        // res.redirect(referringPage);
     } catch (error) { 
         res.status(500).json({ error });
     }
@@ -120,23 +118,19 @@ router.post('/editplace/:landmarkId', authenticateAdmin, upload.single('image'),
     });
 
     if (landmark) {
-      // Update the landmark's information based on the form data
       landmark.title = req.body.title;
       landmark.description = req.body.description;
       landmark.location.long = req.body.long;
       landmark.location.lat = req.body.lat;
 
       if (req.file) {
-        // Update the image path if a new image was uploaded
         landmark.image.image = req.file.path;
       }
       await landmark.image.save();
       
       await landmark.location.save();
-      // Save the changes to the database
       await landmark.save();
 
-      // Redirect to the page showing all landmarks after successful edit
       const alertMessage = "Landmark edited successfully!";
       const referringPage = "/APIs/getlandmarks";
       res.send(`
@@ -158,24 +152,31 @@ router.post('/editplace/:landmarkId', authenticateAdmin, upload.single('image'),
 
         // Find the landmark by its ID
         const landmark = await Landmark.findByPk(landmarkId, {
-          include: ['image', 'location'] // Include associated tables for deletion
+          include: ['image', 'location']
         });
     
 
         if (!landmark) {
-            // If landmark not found, return an error
             return res.status(404).json({ message: "Landmark not found" });
         }
-        // Delete the landmark and associated records
-        console.log("ana henaa ahoo")
-        await landmark.image.destroy();
-        await landmark.location.destroy();
+        const image = landmark.image;
+        const location = landmark.location;
+        await landmark.update({ image_id: null, location_id: null });
         await landmark.destroy();
-
-        // Redirect or return a success message
-        res.redirect("getlandmarks"); // Redirect to the landmarks page
-        // Alternatively, you can return a JSON success message
-        // res.status(200).json({ message: "Landmark deleted successfully" });
+        if (image) {
+          await image.destroy();
+        }
+        if (location) {
+          await location.destroy();
+        }
+        const referringPage = req.headers.referer;
+        const alertMessage = "Landmark Deleted successfully!";
+        res.send(`
+            <script>
+                alert("${alertMessage}");
+                window.location.href = "${referringPage}";
+            </script>
+        `);
     } catch (error) {
         res.status(500).json({ error });
     }

@@ -14,6 +14,7 @@ module.exports = (sequelize, DataTypes) => {
       Landmark.belongsTo(models.Image, {
         foreignKey: "image_id",
         as: "image",
+        onDelete: "CASCADE"
       });
       Landmark.belongsTo(models.Location, {
         foreignKey: "location_id",

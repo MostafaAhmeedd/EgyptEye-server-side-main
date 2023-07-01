@@ -17,7 +17,7 @@ module.exports = {
       },
       image_id: {
         type: Sequelize.INTEGER,
-        references: {model: "Images", key: "id"}
+        references: {model: "Images", key: "id",  onDelete: "CASCADE"}
       },
       location_id: {
         type: Sequelize.INTEGER,
