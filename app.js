@@ -7,8 +7,14 @@ app.use(express.static('public'));
 app.use('/uploads',express.static(path.join(__dirname,"uploads")));
 const cookieParser = require('cookie-parser');
 app.use(cookieParser());
-
-
+const session = require('express-session');
+const methodOverride = require('method-override');
+app.use(methodOverride('_method'));
+app.use(session({
+  secret: 'your-secret-key',
+  resave: false,
+  saveUninitialized: false
+}));
 
 // support parsing of application/json type post data
 const bodyParser = require('body-parser');
@@ -23,7 +29,7 @@ const searchRoutes = require('./APIs/Search');
 const profileRoutes = require('./APIs/Profile');
 const favoriteRoutes = require('./APIs/Favorite');
 
-app.use("/APIs", authRoutes);
+app.use("/APIs", authRoutes); 
 app.use('/APIs', adminRoutes);
 app.use('/search', searchRoutes);
 app.use('/profile', profileRoutes);
@@ -76,10 +82,12 @@ app.get("/main", (req,res) =>{
   res.render("main")
 
 });
-app.get('/signup', (req, res) => {
+app.get('/admin-signup', (req, res) => {
   res.render('signup');
 });
-
+app.get('/viewuser', (req, res) => {
+  res.render('viewuser');
+});
 // app.get("/getlandmarks", (req,res) =>{
 //   res.render("getlandmarks");
 // });
