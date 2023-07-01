@@ -67,8 +67,10 @@
                 <td><%= landmark.location.lat %></td>
                 <td>
                   <!-- Add a link to the editplace route with the landmark id as a query parameter -->
-                  <a class="editplace" href="/APIs/editplace/<%= landmark.id %>"><button class="edit">edit</button></a>
-                  <button class="delete">delete</button>
+                 <a class="editplace" href="/APIs/editplace/<%= landmark.id %>"><button class="edit">edit</button></a>
+                  <form class ="deleteplace"action="/APIs/delete-landmark/<%= landmark.id %>" method="POST" onsubmit="return confirm('Are you sure you want to delete this Landmark?')">
+                    <button class="delete" type="submit">delete</button>
+                    </form>
                 </td>
               </tr>
               <% }); %>

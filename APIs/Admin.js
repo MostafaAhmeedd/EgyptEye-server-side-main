@@ -167,6 +167,7 @@ router.post('/editplace/:landmarkId', authenticateAdmin, upload.single('image'),
             return res.status(404).json({ message: "Landmark not found" });
         }
         // Delete the landmark and associated records
+        console.log("ana henaa ahoo")
         await landmark.image.destroy();
         await landmark.location.destroy();
         await landmark.destroy();

@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       Landmark.belongsTo(models.Image, {
         foreignKey: "image_id",
-        as: "image"
+        as: "image",
       });
       Landmark.belongsTo(models.Location, {
         foreignKey: "location_id",
