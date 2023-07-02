@@ -15,7 +15,7 @@ app.use(session({
   resave: false,
   saveUninitialized: false
 }));
-
+const {authenticateAdmin} = require('./services/authenticate')
 // support parsing of application/json type post data
 const bodyParser = require('body-parser');
 app.use(bodyParser.json());
@@ -67,37 +67,34 @@ app.use('/favorite', favoriteRoutes);
 // } )
 
 app.get("/", (req, res)=>{
+    res.clearCookie("token")
     res.render('login');
 })
 app.get("/login", (req, res)=>{
+  res.clearCookie("token")
   res.render('login');
 })
-app.get("/addplace", (req,res) =>{
+app.get("/addplace",authenticateAdmin, (req,res) =>{
   res.render("addplace");
 });
 
-app.get("/main", (req,res) =>{
-
-  // const token = req.cookies.token;
-  res.render("main")
-
+app.get("/main",authenticateAdmin, (req,res) =>{
+   const token = req.cookies.token;
+    res.render("main")
 });
 app.get('/admin-signup', (req, res) => {
   res.render('signup');
 });
-app.get('/viewuser', (req, res) => {
-  res.render('viewuser');
+app.get('/viewuser',authenticateAdmin, (req, res) => {
+    res.render("viewuser")
 });
-app.get('/editplace', (req, res) => {
+app.get('/editplace',authenticateAdmin, (req, res) => {
   res.render('editplace');
 });
-// app.get("/getlandmarks", (req,res) =>{
-//   res.render("getlandmarks");
-// });
-
-// app.get('/profile-admin', (req, res) => {
-//   res.render('profile-admin');
-// });
+app.get('/logout',authenticateAdmin, (req, res) => {
+  res.clearCookie("token")
+  res.redirect('/login');
+});
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`)
 })

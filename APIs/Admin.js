@@ -7,7 +7,6 @@ const {authenticateAdmin} = require('../services/authenticate')
 const createUploadMiddleware = require('../services/multer');
 const upload = createUploadMiddleware('uploads');
 const {User} = require('../models');
-
 router.post('/addLandmark',authenticateAdmin,upload.single('image'), async(req, res)=>{
     try{
 

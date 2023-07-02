@@ -4,7 +4,8 @@ const {User} = require('../models')
 const authenticateAdmin = async(req,res,next) => {
     try{ 
         const token = req.cookies.token;
-        const decodedToken = decodeToken(token)
+        req.headers["authenticate"] = token
+        const decodedToken = decodeToken(req.headers["authenticate"])
         const user = await User.findByPk(decodedToken.id);
 
         if (user){

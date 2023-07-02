@@ -82,9 +82,6 @@ router.post("/signup", async (req, res) => {
       res.status(500).json({ error: 'Error in creating user' });
     }
   });
-  
-  
-  
   router.post("/login", async(req, res) => {
     try{
       const user = await User.findOne({where: {email: req.body.email}});

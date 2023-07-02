@@ -5,11 +5,15 @@
   <meta charset="utf-8">
   <title>EgyptEye-Login</title>
   <link rel="stylesheet" type="text/css" href="/style.css">
-  <script type = "text/javascript" >
-    function preventBack(){window.history.forward();}
-     setTimeout("preventBack()", 0);
-     window.onunload=function(){null};
- </script>
+  <script language='javascript' type='text/javascript'>
+    function DisableBackButton() {
+    window.history.forward()
+    }
+    DisableBackButton();
+    window.onload = DisableBackButton;
+    window.onpageshow = function(evt) { if (evt.persisted) DisableBackButton() }
+    window.onunload = function() { void (0) }
+    </script>
 </head>
 
 <body>
@@ -25,7 +29,7 @@
             <form id="stripe-login"  action="/APIs/login" method="POST">
               <div class="field padding-bottom--24">
                 <label for="name">email</label>
-                <input type="email" name="email" maxlength="20" minlength="7" required>
+                <input type="email" name="email"  required>
               </div>
               <div class="field padding-bottom--24">
                 <div class="grid--50-50">
@@ -37,9 +41,6 @@
                 <input type="password" name="password" maxlength="10" minlength="6" required>
               </div>
               <div class="field field-checkbox padding-bottom--24 flex-flex align-center">
-                <label for="checkbox">
-                  <input type="checkbox" name="checkbox"> Stay signed in
-                </label>
               </div>
               <div class="field padding-bottom--24">
                 <input type="submit" name="submit" value="Continue">

@@ -8,4 +8,3 @@ function redirectToRoute(route) {
 // // Redirect the user to the logout success page
 // window.location.replace("/login");
 // }
-
