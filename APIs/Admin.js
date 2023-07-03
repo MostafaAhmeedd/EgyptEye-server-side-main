@@ -7,6 +7,7 @@ const {authenticateAdmin} = require('../services/authenticate')
 const createUploadMiddleware = require('../services/multer');
 const upload = createUploadMiddleware('uploads');
 const {User} = require('../models');
+
 router.post('/addLandmark',authenticateAdmin,upload.single('image'), async(req, res)=>{
     try{
 
@@ -20,7 +21,6 @@ router.post('/addLandmark',authenticateAdmin,upload.single('image'), async(req, 
         })
         await newImage.save();
         await newLocation.save()
-        console.log(newLocation)
         if(newLocation && newImage) {
 
             const newLandmark = await Landmark.create({
@@ -148,8 +148,6 @@ router.post('/editplace/:landmarkId', authenticateAdmin, upload.single('image'),
   router.post('/delete-landmark/:id', authenticateAdmin, async (req, res) => {
     try {
         const landmarkId = req.params.id;
-
-        // Find the landmark by its ID
         const landmark = await Landmark.findByPk(landmarkId, {
           include: ['image', 'location']
         });
