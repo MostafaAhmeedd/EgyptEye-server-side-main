@@ -9,34 +9,40 @@ const upload = createUploadMiddleware('uploads');
 const {User} = require('../models');
 
 router.post('/addLandmark',authenticateAdmin,upload.single('image'), async(req, res)=>{
-    try{
+  try{
 
-        const newLocation = await Location.build({
-            lat: req.body.lat,      
-            long: req.body.long
-        })
+      const newLocation = await Location.build({
+          lat: req.body.lat,      
+          long: req.body.long
+      })
+      console.log(1000)
+      // upload to space
+      let file = req.file
+      const imgUrl = await uploadToSpace(file)
+      console.log(imgUrl)
 
-        const newImage = await Image.build({
-            image: req.file.path
-        })
-        await newImage.save();
-        await newLocation.save()
-        if(newLocation && newImage) {
 
-            const newLandmark = await Landmark.create({
-                title: req.body.title,
-                description: req.body.description,
-                image_id: newImage.id,
-                location_id: newLocation.id
-            })
+      const newImage = await Image.build({
+          image: imgUrl
+      })
+      await newImage.save();
+      await newLocation.save()
+      if(newLocation && newImage) {
 
-            if (newLandmark){
-                res.redirect("/addplace")
-            }
-        }
-    }catch (error){
-        res.status(500).json({error})
-    }
+          const newLandmark = await Landmark.create({
+              title: req.body.title,
+              description: req.body.description,
+              image_id: newImage.id,
+              location_id: newLocation.id
+          })
+
+          if (newLandmark){
+              res.redirect("/addplace")
+          }
+      }
+  }catch (error){
+      res.status(500).json({error})
+  }
 })
 router.get('/getlandmarks',authenticateAdmin, async(req,res) => {
     try{
