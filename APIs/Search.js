@@ -58,25 +58,48 @@ router.get('/getlandmark', authenticateUser, async(req, res)=>{
 })
 
 router.get('/getlandmark/image', authenticateUser, upload.single('image'), async(req,res)=>{
+
+    let pyshell = new PythonShell('../Model/Script.py');
     
-let pyshell = new PythonShell('../Model/Script.py');
-
-    // sends a message to the Python script via stdin
-    pyshell.send(path.join(projectDir, req.file.path));
-
-    pyshell.on('message', function (message) {
-    // received a message sent from the Python script (a simple "print" statement)
-    res.json({result: message})
-    });
-
-    // end the input stream and allow the process to exit
-    pyshell.end(function (err,code,signal) {
-    if (err) throw err;
-    console.log('The exit code was: ' + code);
-    console.log('The exit signal was: ' + signal);
-    console.log('finished');
-    });
-})
+        // sends a message to the Python script via stdin
+        pyshell.send(path.join(projectDir, req.file.path));
+    
+        pyshell.on('message', async function (message) {
+        // received a message sent from the Python script (a simple "print" statement)
+        // res.json({result: message})
+    
+            try{
+                const landmark = await Landmark.findOne({
+                    where: {
+                    title: req.query.title
+                    },
+                    include: ['image', 'location']
+                });
+    
+                if (landmark){
+                    Search.create({
+                        person_id: req.user.id,
+                        landmark_id: landmark.id
+                    })
+                    res.status(200).json({landmark})
+                }else{
+                    res.status(404).json({message: 'not found'})
+                }
+    
+            }catch{
+                res.status(500).json({message: 'error'})
+    
+            }
+        });
+    
+        // end the input stream and allow the process to exit
+        pyshell.end(function (err,code,signal) {
+        if (err) throw err;
+        console.log('The exit code was: ' + code);
+        console.log('The exit signal was: ' + signal);
+        console.log('finished');
+        });
+    })
 
 router.get('/gethistory', authenticateUser, async(req,res)=>{
     
