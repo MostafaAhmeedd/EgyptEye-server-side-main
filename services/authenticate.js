@@ -13,14 +13,15 @@ const authenticateAdmin = async(req,res,next) => {
                 req.user = user;
                 return next()
             }else{
-                res.status(401).json({message:'unauthorized'})
+                res.redirect('/login');
+                // res.status(401).json({message:'unauthorized'})
             }
              
         }else{   
             res.status(401).json({message:'didnot find it'})
         }
     }catch{
-        res.status(403).json({message:'unauthorized'})
+        res.redirect('/login');
     }
 }
 

@@ -39,7 +39,14 @@ router.post('/addLandmark',authenticateAdmin,upload.single('image'), async(req, 
           })
 
           if (newLandmark){
-              res.redirect("/addplace")
+            const referringPage = req.headers.referer;
+            const alertMessage = "Landmark added successfully!!";
+            res.send(`
+            <script>
+                alert("${alertMessage}");
+                window.location.href = "${referringPage}";
+            </script>
+        `);
           }
       }
   }catch (error){
