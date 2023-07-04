@@ -182,7 +182,7 @@ router.post('/editplace/:landmarkId', authenticateAdmin, upload.single('image'),
         await landmark.destroy();
         if (image) {
           await image.destroy();
-        }
+        } 
         if (location) {
           await location.destroy();
         }
