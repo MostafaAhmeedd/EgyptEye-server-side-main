@@ -7,6 +7,7 @@ const {authenticateAdmin} = require('../services/authenticate')
 const createUploadMiddleware = require('../services/multer');
 const upload = createUploadMiddleware('uploads');
 const {User} = require('../models');
+const {uploadToSpace} = require('../services/awsSpace');
 
 router.post('/addLandmark',authenticateAdmin,upload.single('image'), async(req, res)=>{
   try{
@@ -20,6 +21,7 @@ router.post('/addLandmark',authenticateAdmin,upload.single('image'), async(req, 
       let file = req.file
       const imgUrl = await uploadToSpace(file)
       console.log(imgUrl)
+      console.log("url")
 
 
       const newImage = await Image.build({
@@ -41,6 +43,7 @@ router.post('/addLandmark',authenticateAdmin,upload.single('image'), async(req, 
           }
       }
   }catch (error){
+    console.log(error,"fisfhiuhfueirf")
       res.status(500).json({error})
   }
 })
