@@ -139,7 +139,11 @@ router.post('/editplace/:landmarkId', authenticateAdmin, upload.single('image'),
       landmark.location.lat = req.body.lat;
 
       if (req.file) {
-        landmark.image.image = req.file.path;
+        let file = req.file
+        const imgUrl = await uploadToSpace(file)
+        console.log(imgUrl)
+        // landmark.image.image = req.file.path;
+        landmark.image.image = imgUrl;
       }
       await landmark.image.save();
       
