@@ -57,9 +57,12 @@ router.get('/getlandmark', authenticateUser, async(req, res)=>{
     }
 })
 
-router.get('/getlandmark/image', authenticateUser, upload.single('image'), async(req,res)=>{
+router.get('/getlandmark/image', upload.single('image'), async(req,res)=>{
 
-    let pyshell = new PythonShell('../Model/Script.py');
+
+    const projectDir = process.cwd();
+
+    let pyshell = new PythonShell(`${projectDir}/Model/Script.py`);
     
         // sends a message to the Python script via stdin
         pyshell.send(path.join(projectDir, req.file.path));
