@@ -93,6 +93,7 @@ router.post("/signup", async (req, res) => {
           const token = jwt.generateToken(user.id);
           res.cookie("token", token);
           res.redirect(`/main`);
+          res.json({token: token})
         }else{
           res.status(400).json({error: "Wrong Creditials"})
         }
