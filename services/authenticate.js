@@ -15,7 +15,7 @@ const authenticateAdmin = async(req,res,next) => {
             }else{
                 res.status(401).json({message:'unauthorized'})
             }
-            
+             
         }else{
             res.status(401).json({message:'didnot find it'})
         }
