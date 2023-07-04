@@ -105,4 +105,25 @@ router.post("/signup", async (req, res) => {
     }
   })
 
+  router.post("/user/login", async(req, res) => {
+    try{
+      const user = await User.findOne({where: {email: req.body.email}});
+      // console.log("iddddd", user)
+
+      if (user){
+        const isPasswordMatch = await bcrypt.compare(req.body.password, user.password);
+        if (isPasswordMatch){
+          const token = jwt.generateToken(user.id);
+          res.json({token: token})
+        }else{
+          res.status(400).json({error: "Wrong Creditials"})
+        }
+      }else{
+        res.status(404).json({ error: 'User not found' });
+      }
+    }catch{
+      res.status(500).json({error: "Something went wrong"})
+    }
+  })
+
 module.exports = router;
