@@ -94,8 +94,6 @@ router.post('/getlandmark/image',authenticateUser, upload.single('image'), async
         console.log('finished');
         });
     });
-
-
   
 
 router.get('/gethistory', authenticateUser, async(req,res)=>{
@@ -105,10 +103,14 @@ router.get('/gethistory', authenticateUser, async(req,res)=>{
             where: {
               person_id: req.user.id
             },
-            include: ['landmarks'],
-            attributes: ['id', 'title']
+            include: [
+              {
+                model: Landmark,
+                attributes: ['id', 'title']
+              }
+            ],
+            attributes: []
           });
-          
         res.status(200).json({landmarks})
     }catch{
         res.status(500).json({message: 'error'})
