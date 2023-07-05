@@ -63,28 +63,28 @@ router.get('/getlandmark/image',authenticateUser, upload.single('image'), async(
         // sends a message to the Python script via stdin
         pyshell.send(path.join(projectDir, req.file.path));
         pyshell.on('message', async function (message) {
-            try{
+            try {
                 const title = message;
                 const landmark = await Landmark.findOne({
                     where: {
-                    // title: req.query.title
-                    title : title
+                        // title: req.query.title
+                        title: title
                     },
                     include: ['image', 'location']
                 });
-                if (landmark){
-                    // console.log(req.user.id)
+                if (landmark) {
                     const search = await Search.create({
                         person_id: req.user.id,
                         landmark_id: landmark.id
-                    })
+                    });
                     await search.save();
-                    res.status(200).json({landmark})
-                }else{
-                    res.status(404).json({message: 'not found'})
+                    res.status(200).json({ landmark });
+                } else {
+                    res.status(404).json({ message: 'not found' });
                 }
-            }catch{
-                res.status(500).json({message: 'error'})
+            } catch (err) {
+                console.log(err);
+                res.status(500).json({ message: 'error' });
             }
         });
         // end the input stream and allow the process to exit
@@ -94,8 +94,7 @@ router.get('/getlandmark/image',authenticateUser, upload.single('image'), async(
         console.log('The exit signal was: ' + signal);
         console.log('finished');
         });
-    })
-
+    });
 
 // router.get('/getlandmark/image', authenticateUser, upload.single('image'), async (req, res) => {
 //     try {
