@@ -12,16 +12,19 @@ from keras.applications.imagenet_utils import decode_predictions, preprocess_inp
 from scipy import spatial
 import pickle
 from scipy import spatial
+from tensorflow.keras.applications.vgg16 import VGG16  , preprocess_input
+from tensorflow.keras.preprocessing.image import load_img, img_to_array
+from tensorflow.keras.models import Model
 def load_dictionary_from_disk(filepath):
     with open(filepath, 'rb') as file:
         dictionary = pickle.load(file)
     return dictionary        
-
 # current_dir = os.path.dirname(os.path.abspath(__file__))
 file_path_features = os.path.join(os.getcwd(), "Model/feature_vectors.pkl")
 Feature_vectors =load_dictionary_from_disk(file_path_features)
-file_path = os.path.join(os.getcwd(), "Model/finalized_model_vgg16.pkl")
-model = pickle.load(open(file_path, "rb"))
+# file_path = os.path.join(os.getcwd(), "Model/finalized_model_vgg16.pkl")
+model = VGG16(include_top=False)
+# model = pickle.load(open(file_path, 'rb'))
 
 
 
@@ -50,6 +53,7 @@ def predict(test_photo_path):
             highest_similarity_key = "unknown"                  
     return highest_similarity_key
 image_path = sys.stdin.readline().strip()
+# image_path = r"D:\Graduation project\Code\Egypteye-server-side-zalata2\EgyptEye-server-side-main\uploads\2.jpg"
 predict = predict(image_path)
 print(predict)
 
