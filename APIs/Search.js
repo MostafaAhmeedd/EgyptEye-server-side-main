@@ -97,45 +97,45 @@ router.get('/getlandmark/image',authenticateUser, upload.single('image'), async(
     })
 
 
-router.get('/getlandmark/image', authenticateUser, upload.single('image'), async (req, res) => {
-    try {
-      const projectDir = process.cwd();
-      let pyshell = new PythonShell(`${projectDir}/Model/Script.py`);
+// router.get('/getlandmark/image', authenticateUser, upload.single('image'), async (req, res) => {
+//     try {
+//       const projectDir = process.cwd();
+//       let pyshell = new PythonShell(`${projectDir}/Model/Script.py`);
   
-      // sends a message to the Python script via stdin
-      pyshell.send(path.join(projectDir, req.file.path));
+//       // sends a message to the Python script via stdin
+//       pyshell.send(path.join(projectDir, req.file.path));
   
-      pyshell.on('message', async function (message) {
-        try {
-          const title = message;
-          const landmark = await Landmark.findOne({
-            where: {
-              title: title,
-            },
-            include: ['image', 'location'],
-          });
+//       pyshell.on('message', async function (message) {
+//         try {
+//           const title = message;
+//           const landmark = await Landmark.findOne({
+//             where: {
+//               title: title,
+//             },
+//             include: ['image', 'location'],
+//           });
   
-          if (landmark) {
-            const search = await Search.create({
-              person_id: req.user.id,
-              landmark_id: landmark.id,
-            });
+//           if (landmark) {
+//             const search = await Search.create({
+//               person_id: req.user.id,
+//               landmark_id: landmark.id,
+//             });
   
-            await search.save();
-            res.status(200).json({ landmark });
-          } else {
-            res.status(404).json({ message: 'Not found' });
-          }
-        } catch (error) {
-          console.error(error);
-          res.status(500).json({ message: 'Error occurred' });
-        }
-      });
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: 'Error occurred' });
-    }
-  });
+//             await search.save();
+//             res.status(200).json({ landmark });
+//           } else {
+//             res.status(404).json({ message: 'Not found' });
+//           }
+//         } catch (error) {
+//           console.error(error);
+//           res.status(500).json({ message: 'Error occurred' });
+//         }
+//       });
+//     } catch (error) {
+//       console.error(error);
+//       res.status(500).json({ message: 'Error occurred' });
+//     }
+//   });
   
   
 
