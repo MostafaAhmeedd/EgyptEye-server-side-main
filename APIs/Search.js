@@ -99,17 +99,18 @@ router.post('/getlandmark/image',authenticateUser, upload.single('image'), async
 router.get('/gethistory', authenticateUser, async(req,res)=>{
     
     try{
+        console.log(req.user.id)
         const landmarks = await Search.findAll({
             where: {
               person_id: req.user.id
             },
-            include: [
-              {
-                model: Landmark,
-                attributes: ['id', 'title']
-              }
-            ],
-            attributes: []
+            // include: [
+            //   {
+            //     model: Landmark,
+            //     attributes: ['id', 'title']
+            //   }
+            // ],
+            // attributes: []
           });
         res.status(200).json({landmarks})
     }catch{
