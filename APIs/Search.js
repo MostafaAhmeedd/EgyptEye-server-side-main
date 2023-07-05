@@ -56,7 +56,7 @@ router.get('/getlandmark', authenticateUser, async(req, res)=>{
         res.status(500).json({message: 'error'})
     }
 })
-router.get('/getlandmark/image',authenticateUser, upload.single('image'), async(req,res)=>{
+router.post('/getlandmark/image',authenticateUser, upload.single('image'), async(req,res)=>{
 
     const projectDir = process.cwd();
     let pyshell = new PythonShell(`${projectDir}/Model/Script.py`);
