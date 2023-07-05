@@ -95,27 +95,50 @@ router.post('/getlandmark/image',authenticateUser, upload.single('image'), async
         });
     });
   
+    // router.get('/gethistory', authenticateUser, async (req, res) => {
+    //     try {
 
-router.get('/gethistory', authenticateUser, async(req,res)=>{
-    
-    try{
-        console.log(req.user.id)
-        const landmarks = await Search.findAll({
+    //       const landmarks = await Search.findAll({
+    //         where: {
+    //           person_id: req.user.id
+    //         },
+    //         include: [
+    //           {
+    //             model: Landmark,
+    //             attributes: ['title'] // Retrieve only the 'title' attribute from the Landmark model
+    //           }
+    //         ],
+    //         attributes: [] // Exclude other attributes from the Search model
+    //       });
+    //       res.status(200).json({ landmarks });
+    //     } catch {
+    //       res.status(500).json({ message: 'error' });
+    //     }
+    //   });
+    router.get('/gethistory', authenticateUser, async (req, res) => {
+        try {
+          const landmarks = await Search.findAll({
             where: {
               person_id: req.user.id
             },
-            // include: [
-            //   {
-            //     model: Landmark,
-            //     attributes: ['id', 'title']
-            //   }
-            // ],
-            // attributes: []
           });
-        res.status(200).json({landmarks})
-    }catch{
-        res.status(500).json({message: 'error'})
-    }
-})
+          
+          // Extract the title from the landmarks  
+          const landmarkIds = landmarks.map(landmark => landmark.landmark_id);  
+          const searchedLandmarks = await Landmark.findAll({
+            attributes: ['title'], // Include only id and title attributes
+            where: {
+              id: landmarkIds
+            },
+          });
+          const titles = searchedLandmarks.map(landmark => landmark.title);
+
+          res.status(200).json({ titles });
+        } catch (error) {
+          res.status(500).json({ message: 'Error retrieving history' });
+        }
+      });
+      
+      
 
 module.exports = router;

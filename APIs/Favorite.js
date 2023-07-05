@@ -34,20 +34,44 @@ router.post('/addfavorite', authenticateUser, async(req,res)=>{
     }
 })
 
-router.get('/getfavorites', authenticateUser, async(req,res)=>{
+// router.get('/getfavorites', authenticateUser, async(req,res)=>{
     
-    try{
-        const landmarks = await Favorite.findAll({
-            where: {
-                user_id: req.user.id
-            },
-            include: ['landmarks'],
-            attributes: []
-        })
-        res.status(200).json({landmarks})
-    }catch{
-        res.status(500).json({message: 'error'})
+//     try{
+//         const landmarks = await Favorite.findAll({
+//             where: {
+//                 user_id: req.user.id
+//             },
+//             include: ['landmarks'],
+//             attributes: []
+//         })
+//         res.status(200).json({landmarks})
+//     }catch{
+//         res.status(500).json({message: 'error'})
+//     }
+// })
+router.get('/getfavorites', authenticateUser, async (req, res) => {
+    try {
+      const landmarks = await Favorite.findAll({
+        where: {
+            user_id: req.user.id
+        },
+      });
+      
+      // Extract the title from the landmarks  
+      const landmarkIds = landmarks.map(landmark => landmark.landmark_id);  
+      const searchedLandmarks = await Landmark.findAll({
+        attributes: ['title'], // Include only id and title attributes
+        where: {
+          id: landmarkIds
+        },
+      });
+      const titles = searchedLandmarks.map(landmark => landmark.title);
+
+      res.status(200).json({ titles });
+    } catch (error) {
+      res.status(500).json({ message: 'Error retrieving history' });
     }
-})
+  });
+  
 
 module.exports = router;

@@ -22,9 +22,7 @@ def load_dictionary_from_disk(filepath):
 # current_dir = os.path.dirname(os.path.abspath(__file__))
 file_path_features = os.path.join(os.getcwd(), "Model/feature_vectors.pkl")
 Feature_vectors =load_dictionary_from_disk(file_path_features)
-# file_path = os.path.join(os.getcwd(), "Model/finalized_model_vgg16.pkl")
 model = VGG16(include_top=False)
-# model = pickle.load(open(file_path, 'rb'))
 
 
 
