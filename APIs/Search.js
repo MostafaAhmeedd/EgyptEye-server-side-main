@@ -96,7 +96,6 @@ router.get('/getlandmark', authenticateUser, async(req, res)=>{
 //         });
 //     })
 
-
 router.get('/getlandmark/image', authenticateUser, upload.single('image'), async (req, res) => {
     try {
       const projectDir = process.cwd();
@@ -131,19 +130,12 @@ router.get('/getlandmark/image', authenticateUser, upload.single('image'), async
           res.status(500).json({ message: 'Error occurred' });
         }
       });
-  
-      // end the input stream and allow the process to exit
-      pyshell.end(function (err, code, signal) {
-        if (err) throw err;
-        console.log('The exit code was: ' + code);
-        console.log('The exit signal was: ' + signal);
-        console.log('finished');
-      });
     } catch (error) {
       console.error(error);
       res.status(500).json({ message: 'Error occurred' });
     }
   });
+  
   
 
 router.get('/gethistory', authenticateUser, async(req,res)=>{
