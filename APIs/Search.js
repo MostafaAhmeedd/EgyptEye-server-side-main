@@ -56,99 +56,91 @@ router.get('/getlandmark', authenticateUser, async(req, res)=>{
         res.status(500).json({message: 'error'})
     }
 })
+router.get('/getlandmark/image',authenticateUser, upload.single('image'), async(req,res)=>{
 
-// router.get('/getlandmark/image', upload.single('image'), async(req,res)=>{
-
-
-//     const projectDir = process.cwd();
-
-//     let pyshell = new PythonShell(`${projectDir}/Model/Script.py`);
-    
-//         // sends a message to the Python script via stdin
-//         pyshell.send(path.join(projectDir, req.file.path));
-    
-//         pyshell.on('message', async function (message) {
-//         // received a message sent from the Python script (a simple "print" statement)
-//         // res.json({result: message})
-    
-//             try{
-//                 const landmark = await Landmark.findOne({
-//                     where: {
-//                     title: req.query.title
-//                     },
-//                     include: ['image', 'location']
-//                 });
-    
-//                 if (landmark){
-//                     Search.create({
-//                         person_id: req.user.id,
-//                         landmark_id: landmark.id
-//                     })
-//                     res.status(200).json({landmark})
-//                 }else{
-//                     res.status(404).json({message: 'not found'})
-//                 }
-    
-//             }catch{
-//                 res.status(500).json({message: 'error'})
-    
-//             }
-//         });
-    
-//         // end the input stream and allow the process to exit
-//         pyshell.end(function (err,code,signal) {
-//         if (err) throw err;
-//         console.log('The exit code was: ' + code);
-//         console.log('The exit signal was: ' + signal);
-//         console.log('finished');
-//         });
-//     })
-
-
-router.get('/getlandmark/image', upload.single('image'), async (req, res) => { //test bas mn chatgbt el main fo2 ma3molo comment
-  const projectDir = process.cwd();
-
-  let pyshell = new PythonShell(`${projectDir}/Model/Script.py`);
-
-  // Sends a message to the Python script via stdin
-  pyshell.send(path.join(projectDir, req.file.path));
-
-  pyshell.on('message', function (message) {
-    return new Promise(async (resolve, reject) => {
-      try {
-        const landmark = await Landmark.findOne({
-          where: {
-            title: req.query.title,
-          },
-          include: ['image', 'location'],
+    const projectDir = process.cwd();
+    let pyshell = new PythonShell(`${projectDir}/Model/Script.py`);
+        // sends a message to the Python script via stdin
+        pyshell.send(path.join(projectDir, req.file.path));
+        pyshell.on('message', async function (message) {
+            try{
+                const title = message;
+                const landmark = await Landmark.findOne({
+                    where: {
+                    // title: req.query.title
+                    title : title
+                    },
+                    include: ['image', 'location']
+                });
+                if (landmark){
+                    // console.log(req.user.id)
+                    const search = await Search.create({
+                        person_id: req.user.id,
+                        landmark_id: landmark.id
+                    })
+                    await search.save();
+                    res.status(200).json({landmark})
+                }else{
+                    res.status(404).json({message: 'not found'})
+                }
+            }catch{
+                res.status(500).json({message: 'error'})
+            }
         });
+        // end the input stream and allow the process to exit
+        pyshell.end(function (err,code,signal) {
+        if (err) throw err;
+        console.log('The exit code was: ' + code);
+        console.log('The exit signal was: ' + signal);
+        console.log('finished');
+        });
+    })
 
-        if (landmark) {
-          Search.create({
-            person_id: req.user.id,
-            landmark_id: landmark.id,
-          });
-          res.status(200).json({ landmark });
-        } else {
-          res.status(404).json({ message: 'Not found' });
-        }
-        resolve();
-      } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Error occurred' });
-        reject(error);
-      }
-    });
-  });
 
-  // End the input stream and allow the process to exit
-  pyshell.end(function (err, code, signal) {
-    if (err) throw err;
-    console.log('The exit code was: ' + code);
-    console.log('The exit signal was: ' + signal);
-    console.log('Finished');
-  });
-});
+// router.get('/getlandmark/image', upload.single('image'), async (req, res) => { //test bas mn chatgbt el main fo2 ma3molo comment
+//   const projectDir = process.cwd();
+
+//   let pyshell = new PythonShell(`${projectDir}/Model/Script.py`);
+
+//   // Sends a message to the Python script via stdin
+//   pyshell.send(path.join(projectDir, req.file.path));
+
+//   pyshell.on('message', function (message) {
+//     return new Promise(async (resolve, reject) => {
+//       try {
+//         const landmark = await Landmark.findOne({
+//           where: {
+//             title: req.query.title,
+//           },
+//           include: ['image', 'location'],
+//         });
+
+//         if (landmark) {
+//           Search.create({
+//             person_id: req.user.id,
+//             landmark_id: landmark.id,
+//           });
+//           res.status(200).json({ landmark });
+//         } else {
+//           res.status(404).json({ message: 'Not found' });
+//         }
+//         resolve();
+//       } catch (error) {
+//         console.error(error);
+//         res.status(500).json({ message: 'Error occurred' });
+//         reject(error);
+//       }
+//     });
+//   });
+
+//   // End the input stream and allow the process to exit
+//   pyshell.end(function (err, code, signal) {
+//     if (err) throw err;
+//     console.log('The exit code was: ' + code);
+//     console.log('The exit signal was: ' + signal);
+//     console.log('Finished');
+//   });
+// });
 
 
 router.get('/gethistory', authenticateUser, async(req,res)=>{
