@@ -12,14 +12,16 @@ from keras.applications.imagenet_utils import decode_predictions, preprocess_inp
 from scipy import spatial
 import pickle
 from scipy import spatial
-# current_dir = os.path.dirname(os.path.abspath(__file__))
-file_path = os.path.join(os.getcwd(), "Model/finalized_model_vgg16.pkl")
-print("file",file_path)
-model = pickle.load(open(file_path, "rb"))
 def load_dictionary_from_disk(filepath):
     with open(filepath, 'rb') as file:
         dictionary = pickle.load(file)
     return dictionary        
+
+# current_dir = os.path.dirname(os.path.abspath(__file__))
+file_path_features = os.path.join(os.getcwd(), "Model/feature_vectors.pkl")
+Feature_vectors =load_dictionary_from_disk(file_path_features)
+file_path = os.path.join(os.getcwd(), "Model/finalized_model_vgg16.pkl")
+model = pickle.load(open(file_path, "rb"))
 
 
 
@@ -32,8 +34,7 @@ def get_feature(path):
     features = features.flatten()
     return features
 # current_dir = os.path.dirname(os.path.abspath(__file__))
-file_path_features = os.path.join(os.getcwd(), "Model/feature_vectors.pkl")
-Feature_vectors =load_dictionary_from_disk(file_path_features)
+
 
 def predict(test_photo_path):
     feature= get_feature(test_photo_path)
