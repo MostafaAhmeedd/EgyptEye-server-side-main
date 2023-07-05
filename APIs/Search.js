@@ -72,16 +72,15 @@ router.get('/getlandmark/image',authenticateUser, upload.single('image'), async(
                     },
                     include: ['image', 'location']
                 });
-                if (landmark) {
+                // if (landmark) {
                     const search = await Search.create({
                         person_id: req.user.id,
                         landmark_id: landmark.id
                     });
-                    await search.save();
                     res.status(200).json({ landmark });
-                } else {
-                    res.status(404).json({ message: 'not found' });
-                }
+                // } //else {
+                //     res.status(404).json({ message: 'not found' });
+                // }
             } catch (err) {
                 console.log(err);
                 res.status(500).json({ message: 'error' });
