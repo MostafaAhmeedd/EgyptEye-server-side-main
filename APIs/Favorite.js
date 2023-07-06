@@ -58,16 +58,17 @@ router.get('/getfavorites', authenticateUser, async (req, res) => {
       });
       
       // Extract the title from the landmarks  
-      const landmarkIds = landmarks.map(landmark => landmark.landmark_id);  
-      const searchedLandmarks = await Landmark.findAll({
+        // Extract the title from the landmarks
+        const landmarkIds = landmarks.map(landmark => landmark.landmark_id);
+        const searchedLandmarks = await Landmark.findAll({
         attributes: ['title'], // Include only id and title attributes
         where: {
-          id: landmarkIds
+            id: landmarkIds
         },
-      });
-      const titles = searchedLandmarks.map(landmark => landmark.title);
+        });
+        const titles = searchedLandmarks.map(landmark => landmark.title);
 
-      res.status(200).json({ titles });
+        res.status(200).json({ titles: titles });
     } catch (error) {
       res.status(500).json({ message: 'Error retrieving history' });
     }

@@ -113,7 +113,7 @@ router.post('/getlandmark/image',authenticateUser, upload.single('image'), async
         });
         const titles = searchedLandmarks.map(landmark => landmark.title);
 
-res.status(200).json({ titles: titles });
+        res.status(200).json({ titles: titles });
         } catch (error) {
           res.status(500).json({ message: 'Error retrieving history' });
         }
