@@ -60,15 +60,12 @@ router.get('/getfavorites', authenticateUser, async (req, res) => {
       // Extract the title from the landmarks  
         // Extract the title from the landmarks
         const landmarkIds = landmarks.map(landmark => landmark.landmark_id);
-        const searchedLandmarks = await Landmark.findAll({
-        attributes: ['title'], // Include only id and title attributes
+        const landmark = await Landmark.findAll({
         where: {
             id: landmarkIds
         },
         });
-        const titles = searchedLandmarks.map(landmark => landmark.title);
-
-        res.status(200).json({ titles: titles });
+        res.status(200).json({ landmark });
     } catch (error) {
       res.status(500).json({ message: 'Error retrieving history' });
     }
